@@ -25,6 +25,13 @@ int sum_divisible_both(int n) {
     durch `7` *als auch* durch `13` teilbar sind.
     */
     /* BEGIN CHANGES */
+    int i;
+
+    for (i=0; i<=n; i++) {
+        if (i % 7 ==0 && i % 13 ==0){
+            result += i;
+        }
+    }
 
     /* END CHANGES */
     return result;
@@ -39,6 +46,13 @@ int sum_divisible_or(int n) {
     */
     /* BEGIN CHANGES */
 
+    int i;
+
+    for (i=0; i<=n; i++) {
+        if (i % 7 ==0 || i % 13 ==0){
+            result += i;
+        }
+    }
     /* END CHANGES */
     return result;
 }
@@ -52,6 +66,13 @@ int sum_divisible_either(int n) {
     */
     /* BEGIN CHANGES */
 
+    int i;
+    for (i=0; i<=n; i++){
+        if ((i % 7 == 0) ^ (i % 13 == 0)) {
+            result += i;
+            }
+    }
+
     /* END CHANGES */
     return result;
 }
@@ -64,6 +85,14 @@ int signum(int x) {
     `1` falls `x` strikt positiv ist.
     */
     /* BEGIN CHANGES */
+
+    if (x<0){
+        result=-1;
+    } else if (x>0) {
+        result = 1;
+    } else {
+        result = 0; 
+    }
 
     /* END CHANGES */
     return result;
@@ -80,6 +109,12 @@ int is_leapyear(int year) {
     */
     /* BEGIN CHANGES */
 
+    if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)){
+        result = 1;
+    } else {
+        result = 0;
+    }
+
     /* END CHANGES */
     return result;
 }
@@ -92,8 +127,20 @@ int greatest_of_three(int a, int b, int c) {
     */
     /* BEGIN CHANGES */
     
+    /*Ternary Operations */
+
+    result = (a > b) ? (a > c ? a : c) : (b > c ? b : c);
+    
     /* END CHANGES */
     return result;
+}
+
+// Rekursive GCD Fuktion anhand des Euklidischen Algorithmus | Quelle: S. 935, Introduction to Algorithms
+int gcd(int a, int b) {
+    if (b == 0) {
+        return a;
+    }
+    return gcd(b, a % b);
 }
 
 int least_common_multiple_with_8(int n) {
@@ -109,6 +156,8 @@ int least_common_multiple_with_8(int n) {
     */
     /* BEGIN CHANGES */
 
+    result = n * 8 / gcd(n, 8);
+
     /* END CHANGES */
     return result;
 }
@@ -123,6 +172,10 @@ int sum_least_common_multiples_with_8(int n) {
     'n := 3' der Wert '8 + 8 + 24 = 40'
     */
     /* BEGIN CHANGES */
+
+    for (int i = 1; i <= n; i++) {
+        result += least_common_multiple_with_8(i);
+    }
 
     /* END CHANGES */
     return result;
