@@ -37,6 +37,8 @@ int simple_assignment(int a, int b) {
     */
     /* BEGIN CHANGES */
 
+    result = a*b;
+
     /* END CHANGES */
     /*
     Die Codezeile, die Sie eingefügt haben, weist der Variable `result` die Summe der beiden Variablen `a` und `b` zu.
@@ -79,7 +81,7 @@ int nested_expressions(int x, int y) {
     selbstdefinierten Variable ab. Probieren Sie gerne beides.
     */
     /* BEGIN CHANGES */
-
+    result = (x - y) * (x - y);
     /* END CHANGES */
     return result;
 }
@@ -93,6 +95,10 @@ int rotation(int a, int b, int c) {
     die Belegung `a = 3, b = 7, c = 0` sein.
     */
     /* BEGIN CHANGES */
+    int temp = a;
+    a = b;
+    b = c;
+    c = temp;
 
     /* END CHANGES */
     return a + (b * 256) + (c * 256 * 256); /* Ja, diese Zeile mag überraschend sein. Einfach ignorieren :-) */
@@ -107,6 +113,11 @@ int while_loop(int n) {
     `n` ist nie kleiner als `1`.
     */
     /* BEGIN CHANGES */
+    int i=1;
+    while(i<=n){
+        result *=i;
+        i++;
+    }
 
     /* END CHANGES */
     return result;
@@ -121,6 +132,9 @@ int for_loop(int n) {
     `n` ist nie kleiner als `1`.
     */
     /* BEGIN CHANGES */
+    for (int i = 1; i <= n; i++) {
+    result *= i;
+    }
 
     /* END CHANGES */
     return result;
@@ -136,7 +150,7 @@ int ones_place(int n) {
     Tipp: der `%` Operator sollte vermutlich in der Lösung auftauchen.
     */
     /* BEGIN CHANGES */
-
+    result = n % 10;
     /* END CHANGES */
     return result;
 }
@@ -151,7 +165,7 @@ int tens_place(int n) {
     Tipp: der `/` Operator sollte vermutlich in der Lösung auftauchen.
     */
     /* BEGIN CHANGES */
-
+    result = (n / 10) % 10;
     /* END CHANGES */
     return result;
 }
@@ -174,6 +188,7 @@ int fine_print1() {
     der Variable `result` die Anzahl der Sätze in diesem Kommentar zu.
     */
     /* BEGIN CHANGES */
+    result=8;
 
     /* END CHANGES */
     return result;
@@ -192,6 +207,7 @@ int fine_print2() {
     der Buchstaben des Nomens in dem Satzteil *zwischen den Sternchen* im vorigen Absatz zu.
     */
     /* BEGIN CHANGES */
+    result=7;
 
     /* END CHANGES */
     return result;
@@ -216,7 +232,7 @@ int fine_print3() {
     Um uns zu bestätigen, dass Sie das verstanden haben, weisen Sie der Variable `result` den Wert 6174 zu.
     */
     /* BEGIN CHANGES */
-
+    result=6174;
     /* END CHANGES */
     return result;
 }
