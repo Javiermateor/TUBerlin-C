@@ -136,12 +136,12 @@ int greatest_of_three(int a, int b, int c) {
 }
 
 // Rekursive GCD Fuktion anhand des Euklidischen Algorithmus | Quelle: S. 935, Introduction to Algorithms
-int gcd(int a, int b) {
-    if (b == 0) {
-        return a;
-    }
-    return gcd(b, a % b);
-}
+// int gcd(int a, int b) {
+//     if (b == 0) {
+//         return a;
+//     }
+//     return gcd(b, a % b);
+// }
 
 int least_common_multiple_with_8(int n) {
     int result = 0;
@@ -156,7 +156,12 @@ int least_common_multiple_with_8(int n) {
     */
     /* BEGIN CHANGES */
 
-    result = n * 8 / gcd(n, 8);
+    result = n;
+    while (result % 8 != 0) {
+        result += n;
+    }
+
+    // result = n * 8 / gcd(n, 8); // Alternative Lösung
 
     /* END CHANGES */
     return result;
