@@ -36,16 +36,38 @@ Aufgabe 1a:
 Geben Sie in dieser Funktion die Summe der ersten `n` natürlichen Zahlen (exklusive der Null) zurück, die durch `m` teilbar sind.
 */
 int sum_of_divisibles(int n, int m) {
-    return 0;
+    int sum = 0;
+    for (int i = 1; i <= n; i++) {
+        sum += i * m;
+    }
+    return sum;
 }
 
 /*
 Aufgabe 1b:
 
+
 Geben Sie in dieser Funktion die Summe der ersten `n` natürlichen Zahlen (exklusive der Null) zurück, die durch `l` und durch `m` teilbar sind.
 */
+
+// Rekursive GCD Fuktion anhand des Euklidischen Algorithmus |  Quelle: S. 935, Introduction to Algorithms
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
 int sum_of_doubly_divisibles(int n, int l, int m) {
-    return 0;
+    int sum = 0;
+    int lcm = l * m / gcd(l, m);
+    for (int i = 1; i <= n; i++) {
+        sum += i * lcm;
+    }
+    return sum;
 }
 
 /*
@@ -64,9 +86,14 @@ Canvas first_canvas_exercise(Canvas c) {
     Die linke untere Ecke der Canvas ist der Koordinatenursprung, dort sind die x- und die y-Koordinate jeweils `0`.
     Nach rechts steigen die x-Koordinaten, nach oben die y-Koordinaten.
     */
-    c = canvas_set_black(c, 0, 5);
-    c = canvas_set_black(c, 2, 0);
-    c = canvas_set_black(c, 12, 1);
+    c = canvas_set_black(c, 1, 5);
+    canvas_save_debug(c);
+
+    c = canvas_set_black(c, 2, 1);
+    canvas_save_debug(c);
+
+    c = canvas_set_black(c, 13, 4);
+    canvas_save_debug(c);
 
     /*
     Diese drei Funktionsaufrufe hier drüber färben drei unterschiedliche Pixel der Canvas schwarz.
@@ -107,7 +134,15 @@ Funktionen übergeben Sie eine Canvas (so: `canvas_width(c)` und `canvas_height(
 die Breite und Höhe zurückgegeben.
 Hinweis: Koordinaten beginnen bei `0`, nicht bei `1`.
 */
+
+
 Canvas color_corners(Canvas c) {
+    int width = canvas_width(c);
+    int height = canvas_height(c);
+    c = canvas_set_black(c, 0, 0);
+    c = canvas_set_black(c, 0, height - 1);
+    c = canvas_set_black(c, width - 1, 0);
+    c = canvas_set_black(c, width - 1, height - 1);
     return c;
 }
 
@@ -116,6 +151,16 @@ Aufgabe 2c:
 Färben Sie alle Pixel der Canvas schwarz.
 */
 Canvas paint_it_black(Canvas c) {
+
+    int width = canvas_width(c);
+    int height = canvas_height(c);
+
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            c = canvas_set_black(c, x, y);
+        }
+    }
+
     return c;
 }
 
@@ -127,6 +172,25 @@ und schauen sich das erwartete Ergebnis an).
 Falls eine Reihe nicht breit genug ist, färben Sie alle Pixel dieser Reihe schwarz.
 */
 Canvas descending_diagonal(Canvas c) {
+    int width = canvas_width(c);
+    int height = canvas_height(c);
+
+    // Iteriere über die Reihen von oben nach unten
+    for (int y = height - 1; y >= 0; y--) {
+        // Bestimme die Anzahl der zu färbenden Pixel in der aktuellen Reihe
+        int num_pixels_to_color = height - y;
+
+        // Falls die Reihe nicht breit genug ist, färbe alle Pixel
+        if (num_pixels_to_color > width) {
+            num_pixels_to_color = width;
+        }
+
+        // Färbe die entsprechenden Pixel schwarz
+        for (int x = 0; x < num_pixels_to_color; x++) {
+            c = canvas_set_black(c, x, y);
+        }
+    }
+
     return c;
 }
 
@@ -137,6 +201,33 @@ Koordinaten `(x, y)`. Die Breite des Rechtecks ist `width`, und die Höhe ist `h
 auf die Canvas passt, sollen einfach die Teile ignoriert werden welche außerhalb liegen würden.
 */
 Canvas draw_rectangle(Canvas c, int x, int y, int width, int height) {
+    int canvas_w = canvas_width(c);
+    int canvas_h = canvas_height(c);
+
+    // Start- und Endkoordinaten für x anpassen
+    int x_start = x < 0 ? 0 : x;
+    int x_end = x + width - 1;
+    if (x_end >= canvas_w) {
+        x_end = canvas_w - 1;
+    }
+
+    // Start- und Endkoordinaten für y anpassen
+    int y_start = y;
+    if (y_start >= canvas_h) {
+        y_start = canvas_h - 1;
+    }
+    int y_end = y - height + 1;
+    if (y_end < 0) {
+        y_end = 0;
+    }
+
+    // Über die angepassten Koordinaten iterieren und Pixel schwarz färben
+    for (int curr_x = x_start; curr_x <= x_end; curr_x++) {
+        for (int curr_y = y_start; curr_y >= y_end; curr_y--) {
+            c = canvas_set_black(c, curr_x, curr_y);
+        }
+    }
+
     return c;
 }
 
@@ -150,5 +241,18 @@ Tipp: Ob Sie diese Funktion von Grund auf implementieren oder `draw_rectangle` v
 Wir empfehlen beides auszuprobieren und selbst zu entscheiden welche Lösung Sie eleganter finden.
 */
 Canvas draw_rectangle_via_corners(Canvas c, int x0, int y0, int x1, int y1) {
+    // Berechne die Breite und Höhe des Rechtecks
+    int width = x1 - x0 + 1;
+    int height = y0 - y1 + 1;
+
+    // Überprüfe, ob die Dimensionen gültig sind
+    if (width <= 0 || height <= 0) {
+        // Ungültige Dimensionen, nichts zu zeichnen
+        return c;
+    }
+
+    // Zeichne das Rechteck mithilfe der Funktion aus Aufgabe 3a
+    c = draw_rectangle(c, x0, y0, width, height);
+
     return c;
 }
