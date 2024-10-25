@@ -3,6 +3,7 @@ Willkommen zum vierten Aufgabenblatt vom Programmierkurs. Auf diesem Aufabenblat
 
 Um die Tests für dieses Blatt zu kompilieren und zu starten, führen Sie den folgenden Befehl aus:
 clang -std=c11 -g -Wall 04ex_test.c 04ex_helpers.c -o 04ex_test.o -lm && ./04ex_test.o
+clang -std=c11 -g -Wall 04ex_test.c 04ex_helpers.c -o 04ex_test.o && 04ex_test.o
 */
 
 #include "04_canvas.h"
