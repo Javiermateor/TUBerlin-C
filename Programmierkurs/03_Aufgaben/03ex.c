@@ -6,6 +6,8 @@ Willkommen zum dritten Aufgabenblatt vom Programmierkurs. Auf diesem Aufgabenbla
 
 Um die Tests für dieses Blatt zu kompilieren und zu starten, führen Sie den folgenden Befehl aus:
 clang -std=c11 -g -Wall 03ex_test.c -o 03ex_test.o -lm && ./03ex_test.o
+
+WINDOWS: clang -std=c11 -g -Wall 03ex_test.c -o 03ex_test.o && 03ex_test.o
 */
 
 /* Die folgenden Zeilen enthalten einige C-Notwendigkeiten die Sie momentan ignorieren können. */

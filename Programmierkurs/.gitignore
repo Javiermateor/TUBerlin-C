@@ -1,4 +1,7 @@
 *.o
+*.exe
+*.ilk
+*.pdb
 
 01_Aufgaben/01ex_test.o.dSYM/Contents
 02_Aufgaben/02ex_test.o.dSYM/Contents
