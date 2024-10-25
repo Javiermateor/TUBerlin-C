@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "__split_buffer": "c",
+        "deque": "c",
+        "iterator": "c",
+        "locale": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c"
+    }
+}

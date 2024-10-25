@@ -23,7 +23,27 @@ Nutzen Sie für die Distanzbestimmung die `distance` Funktion aus `04ex_helpers.
 Headerfile und die zugehörige Implementierung sind bereits eingebunden, die Funktion kann
 also einfach verwendet werden.
 */
+
 Canvas draw_odd_circle(Canvas c, int x, int y, int radius_from_middle) {
+
+    int width = canvas_width(c);
+    int height = canvas_height(c);
+
+    int x_start = x - radius_from_middle;
+    int x_end = x + radius_from_middle;
+    int y_start = y  - radius_from_middle;
+    int y_end = y + radius_from_middle;
+
+    for (int i = x_start; i <= x_end; i++) {
+        for (int j = y_start; j <= y_end; j++) {
+            if (i >= 0 && i < width && j >= 0 && j < height) {
+                if (distance(x, y, i, j) <= radius_from_middle) {
+                    c = canvas_set_black(c, i, j);
+                }
+            }
+        }
+    }
+
     return c;
 }
 
@@ -37,7 +57,9 @@ Die Datei `04ex_helpers.h` mit den Hilsfunktionen enthält eine Funktion `square
 Distanz zu berechnen.
 */
 int my_distance(int x0, int y0, int x1, int y1) {
-    return 0;
+    int a = x1 - x0;
+    int b = y1 - y0;
+    return squareroot(a * a + b * b);
 }
 
 /*
@@ -47,7 +69,15 @@ Tipp: Finden Sie die größte natürliche Zahl, deren Quadrat kleiner oder gleic
 testen nur mit relativ kleinen Zahlen.
 */
 int my_squareroot(int n) {
-    return 0;
+    if (n < 0) {
+        return -1;
+    }
+
+    int i = 0;
+    while (i * i <= n) {
+        i++;
+    }
+    return i - 1;
 }
 
 /*
@@ -64,7 +94,36 @@ Für Kreise mit _geradem_ Durchmesser rufen Sie Ihre `draw_odd_circle` vier mal 
 welche den exakten Mittelpunkt des erwünschten Kreises umgeben.
 */
 Canvas draw_circle(Canvas c, int x, int y, int diameter) {
-    return c;
+    // For diameter = 0, do nothing
+    if (diameter <= 0) {
+        return c;
+    }
+    
+    // Case 1: Odd diameter
+    if (diameter % 2 == 1) {
+        // Calculate center point
+        int center_x = x + diameter / 2;
+        int center_y = y + diameter / 2;
+        // Use draw_odd_circle with radius = (diameter-1)/2
+        return draw_odd_circle(c, center_x, center_y, diameter / 2);
+    }
+    // Case 2: Even diameter
+    else {
+        // Calculate the four center points around the true center
+        int radius = (diameter - 2) / 2;
+        int left_x = x + (diameter/2) - 1;
+        int right_x = x + (diameter/2);
+        int bottom_y = y + (diameter/2) - 1;
+        int top_y = y + (diameter/2);
+        
+        // Draw four overlapping circles centered at the four points
+        c = draw_odd_circle(c, left_x, bottom_y, radius);
+        c = draw_odd_circle(c, left_x, top_y, radius);
+        c = draw_odd_circle(c, right_x, bottom_y, radius);
+        c = draw_odd_circle(c, right_x, top_y, radius);
+        
+        return c;
+    }
 }
 
 /*
@@ -74,7 +133,7 @@ Kreisezeichnen implementiert. Das ist ziemlich cool!
 Geben Sie zur Feier `5` zurück.
 */
 int high_five() {
-    return 0;
+    return 5;
 }
 
 /*
@@ -86,7 +145,28 @@ Zum Beispiel `hailstone(1) == 0`, `hailstone(4) == 2` (4 -> 2 -> 1), und `hailst
 Berechnen Sie die Hailstone-Zahl vom Parameter `n`.
 */
 int hailstone(int n) {
-    return 0;
+    // If input is 1, return 0 as no steps are needed
+    if (n == 1) {
+        return 0;
+    }
+    
+    // Initialisierung - Schrittanzahl
+    int steps = 0;
+    
+    // Solange n nicht 1 ist
+    while (n != 1) {
+        // If n is even, divide by 2
+        if (n % 2 == 0) {
+            n = n / 2;
+        }
+        // If n is odd, multiply by 3 and add 1
+        else {
+            n = (n * 3) + 1;
+        }
+        steps++;
+    }
+    
+    return steps;
 }
 
 /*
@@ -100,5 +180,5 @@ allerdings Ihre eigenen Tests schreiben.
 Lassen Sie `99` von dieser Funktion zurückgeben um zu zeigen, dass Sie das verstanden haben.
 */
 int bring_your_own_tests() {
-    return 0;
+    return 99;
 }
