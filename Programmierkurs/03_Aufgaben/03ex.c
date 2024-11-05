@@ -6,6 +6,7 @@ Willkommen zum dritten Aufgabenblatt vom Programmierkurs. Auf diesem Aufgabenbla
 
 Um die Tests für dieses Blatt zu kompilieren und zu starten, führen Sie den folgenden Befehl aus:
 clang -std=c11 -g -Wall 03ex_test.c -o 03ex_test.o -lm && ./03ex_test.o
+clang -std=c11 -g -Wall 03ex_test.c -o 03ex_test.o  && ./03ex_test.o
 
 WINDOWS: clang -std=c11 -g -Wall 03ex_test.c -o 03ex_test.o && 03ex_test.o
 */
@@ -28,8 +29,8 @@ Teilprobleme zu identifizieren und losgelöst vom ursprünglichen Kontext als Hi
 ein großer Teil von kompetentem Programmieren.
 */
 int is_multiple_of(int n, int k) {
-    int remainder = n % k;
-    return remainder == 0;
+    int rest = n % k;
+    return rest == 0;
 }
 
 /*
@@ -38,12 +39,13 @@ Aufgabe 1a:
 Geben Sie in dieser Funktion die Summe der ersten `n` natürlichen Zahlen (exklusive der Null) zurück, die durch `m` teilbar sind.
 */
 int sum_of_divisibles(int n, int m) {
-    int sum = 0;
-    for (int i = 1; i <= n; i++) {
-        sum += i * m;
+    int summe = 0;
+    for (int i = n; i >= 1; i--) {
+        summe += i * m;
     }
-    return sum;
+    return summe;
 }
+    
 
 /*
 Aufgabe 1b:
@@ -64,12 +66,12 @@ int gcd(int a, int b) {
 }
 
 int sum_of_doubly_divisibles(int n, int l, int m) {
-    int sum = 0;
+    int summe = 0;
     int lcm = l * m / gcd(l, m);
     for (int i = 1; i <= n; i++) {
-        sum += i * lcm;
+        summe += i * lcm;
     }
-    return sum;
+    return summe;
 }
 
 /*

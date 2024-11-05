@@ -127,7 +127,7 @@ int greatest_of_three(int a, int b, int c) {
     */
     /* BEGIN CHANGES */
     
-    /*Ternary Operations */
+    /*Using ternary Operations */
 
     result = (a > b) ? (a > c ? a : c) : (b > c ? b : c);
     
