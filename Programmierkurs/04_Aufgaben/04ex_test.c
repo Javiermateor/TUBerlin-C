@@ -305,6 +305,27 @@ int main(int argc, char const *argv[]) {
                                     "Aufgabe 2b.\n");
         }
     }
+    /* Aufgabe 2a */
+    if (begin_exercise(&tester, "hailstone", "Aufgabe 2a: Berechnung der Hailstone-Nummer.")) {
+        if (begin_testcase(&tester)) {
+            assert_int(&tester, 0, hailstone(1), "hailstone(1) should return 0");
+        }
+        if (begin_testcase(&tester)) {
+            assert_int(&tester, 2, hailstone(4), "hailstone(4) should return 2");
+        }
+        if (begin_testcase(&tester)) {
+            assert_int(&tester, 5, hailstone(5), "hailstone(5) should return 5");
+        }
+        if (begin_testcase(&tester)) {
+            assert_int(&tester, 16, hailstone(7), "hailstone(7) should return 16");
+        }
+        if (begin_testcase(&tester)) {
+            assert_int(&tester, 9, hailstone(12), "hailstone(12) should return 9");
+        }
+        if (begin_testcase(&tester)) {
+            assert_int(&tester, 111, hailstone(27), "hailstone(27) should return 111");
+        }
+    }
     /* Aufgabe 2b */
     if (begin_exercise(&tester, "bring_your_own_tests", "Aufgabe 2b: Informationen zu 2a.")) {
         if (begin_testcase(&tester)) {
@@ -315,3 +336,24 @@ int main(int argc, char const *argv[]) {
 
     return wrap_up(&tester);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

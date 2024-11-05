@@ -146,28 +146,14 @@ Zum Beispiel `hailstone(1) == 0`, `hailstone(4) == 2` (4 -> 2 -> 1), und `hailst
 Berechnen Sie die Hailstone-Zahl vom Parameter `n`.
 */
 int hailstone(int n) {
-    // If input is 1, return 0 as no steps are needed
     if (n == 1) {
-        return 0;
+        return 0; }
+    
+    if (n % 2 == 0) {
+        return 1 + hailstone(n / 2);
+    } else {
+        return 1 + hailstone(3 * n + 1);
     }
-    
-    // Initialisierung - Schrittanzahl
-    int steps = 0;
-    
-    // Solange n nicht 1 ist
-    while (n != 1) {
-        // If n is even, divide by 2
-        if (n % 2 == 0) {
-            n = n / 2;
-        }
-        // If n is odd, multiply by 3 and add 1
-        else {
-            n = (n * 3) + 1;
-        }
-        steps++;
-    }
-    
-    return steps;
 }
 
 /*
