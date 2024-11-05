@@ -155,6 +155,10 @@ Geben Sie einen Pfannkuchenhaufen zurück, dessen einzige Schicht eine Fruchtsch
 */
 PileOfPancakes pure_fruit() {
     PileOfPancakes p = { .layer = ActualPancake, .further_layers = NULL };
+
+    p.layer = Fruit;
+
+
     return p;
 }
 
@@ -164,7 +168,18 @@ Geben Sie einen gültigen Pointer auf einen Pfannkuchenhaufen zurück, dessen ei
 Der Testcode wird `free` auf diesem Pointer aufrufen. 
 */
 PileOfPancakes *pure_fruit_ptr() {
-    return NULL;
+    // Heap allocation
+    PileOfPancakes *pPancake = (PileOfPancakes *)malloc(sizeof(PileOfPancakes));
+
+    //Fehlerbehandlung
+    if (pPancake == NULL) {
+        perror("malloc failed to allocate memory for pointer");
+        return NULL;
+    } else {
+        pPancake->layer = Fruit;
+        pPancake->further_layers = NULL;
+        return pPancake;
+    }
 }
 
 /*
@@ -173,15 +188,65 @@ Geben Sie einen gültigen Pointer auf einen zweischichtigen Pfannkuchenhaufen zu
 Der Testcode wird `free` auf diesem Pointer aufrufen.
 */
 PileOfPancakes *fruit_crepe_ptr() {
-    return NULL;
+   //Heap allocation für die Basis 
+   PileOfPancakes *pCrepe = (PileOfPancakes *)malloc(sizeof(PileOfPancakes));
+   if (pCrepe == NULL) {
+       perror("malloc failed to allocate memory for basis of fruit_crepe_ptr");
+       return NULL;
+   } else {
+       pCrepe->layer = ActualPancake;
+         //Heap allocation für die Fruchtschicht
+       pCrepe->further_layers = (PileOfPancakes *)malloc(sizeof(PileOfPancakes));
+         if (pCrepe->further_layers == NULL) {
+              perror("malloc failed to allocate memory for fruit layer of fruit_crepe_ptr");
+              free(pCrepe); // Free the basis
+              return NULL;
+         } else {
+              pCrepe->further_layers->layer = Fruit;
+              pCrepe->further_layers->further_layers = NULL;
+         }
+         return pCrepe;
+   }
 }
 
 /*
 Aufgabe 2d:
 Erstellen Sie einen Pfannkuchen aus genau `n` Schichten Teigfladen (`n` ist mindestens 1).
 */
+
+void free_allocated_layers(PileOfPancakes *layer) {
+    PileOfPancakes *free_layers = layer;
+    while (free_layers != NULL) {
+        PileOfPancakes *next =free_layers->further_layers;
+        free(free_layers);
+        free_layers = next;
+    }
+}
+
 PileOfPancakes mille_crepes(uint32_t n) {
+    // Initialize the base layer on the stack
     PileOfPancakes p = { .layer = ActualPancake, .further_layers = NULL };
+
+    // Handle the case where `n` is 1 
+    PileOfPancakes *current_layer = &p;
+
+    for (uint32_t i = 1; i < n; i++) {
+        // Heap allocation for the next layer
+        current_layer -> further_layers = (PileOfPancakes *)malloc(sizeof(PileOfPancakes));
+        if (current_layer -> further_layers == NULL) {
+            perror("malloc failed to allocate memory for a layer of mille_crepes. Proceeding to free allocated layers.");
+
+            // Free all layers that have been allocated so far
+            free_allocated_layers(p.further_layers);
+            p.further_layers = NULL; // Reset the further layers of the base layer
+            return p;                // Return the base layer
+        }
+
+        current_layer = current_layer->further_layers;
+        current_layer->layer = ActualPancake;
+        current_layer->further_layers = NULL; // The last layer has no further layers or initialization for the next iteration
+    }
+
     return p;
 }
 
@@ -219,5 +284,12 @@ geben Sie es zurück.
 Hinweis: Wir starten bei `1`.
 */
 uint16_t *create_dynamic_array(size_t x) {
-    return NULL;
+    
+    uint16_t* dynamic_array = malloc(sizeof(uint16_t)*x);
+    
+    for (uint16_t j = 1;j <= x;j++) {
+        dynamic_array[j - 1] =j *j;
+    }
+
+    return dynamic_array;
 }
